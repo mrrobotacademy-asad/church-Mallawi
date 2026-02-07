@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الكنيسة الانجيلية بملوي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B6B; /* أحمر مبهج */
+            --secondary: #4ECDC4; /* تركواز */
+            --correct: #1DD1A1;
+            --wrong: #FF6B6B;
+            --warning: #FECA57; /* أصفر ذهبي */
+            --bg: #F7F1E3;
+            --card-bg: white;
+            --radius: 20px;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2D3436;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header { text-align: center; padding: 25px; width: 100%; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        .logo-img { 
+            width: 170px; 
+            height: auto; 
+            border-radius: 10%;
+            border: 5px solid var(--secondary);
+        }
+
+        .container {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 4px dashed var(--primary);
+        }
+
+        .explanation-slider {
+            background: #FFF9E1;
+            border-radius: var(--radius);
+            padding: 25px;
+            margin: 20px 0;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 3px solid var(--warning);
+        }
+
+        .explanation-card h3 { color: var(--primary); font-size: 1.8rem; margin-bottom: 10px; }
+        .example-text { color: #636E72; font-size: 1.1rem; line-height: 1.6; }
+        
+        .slider-nav { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+
+        .nav-btn {
+            background: var(--secondary);
+            border: none; color: white; padding: 12px 30px;
+            border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1.1rem;
+            box-shadow: 0 4px 0 #3DBEAC;
+        }
+
+        .nav-btn:active { transform: translateY(3px); box-shadow: none; }
+        .nav-btn:disabled { background: #BDC3C7; box-shadow: none; }
+
+        .code-block {
+            background: #2D3436; color: #FAB1A0; padding: 15px;
+            font-family: 'Cairo'; border-radius: 15px; margin: 15px 0; font-size: 1.2rem;
+        }
+
+        .status-bar {
+            display: flex; justify-content: space-between; background: var(--secondary);
+            padding: 15px; border-radius: var(--radius); margin-bottom: 20px; color: white;
+        }
+
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .option-btn {
+            background: white; border: 3px solid #dfe6e9;
+            padding: 15px; color: #2D3436; cursor: pointer; border-radius: var(--radius);
+            font-size: 1.1rem; font-weight: bold; transition: 0.3s;
+        }
+        .option-btn:hover { border-color: var(--primary); background: #FFF5F5; }
+        .option-btn.selected { background: var(--primary); color: white; border-color: white; }
+
+        .btn-main {
+            background: var(--primary); color: white; border: none; padding: 20px 50px;
+            cursor: pointer; font-weight: 900; border-radius: 50px; font-size: 1.5rem;
+            box-shadow: 0 6px 0 #E84118;
+        }
+
+        .hidden { display: none !important; }
+        input[type="text"] {
+            width: 80%; padding: 15px; border: 3px solid var(--secondary); border-radius: var(--radius);
+            text-align: center; font-size: 1.3rem; margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="logo.png" alt="Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/150/FF6B6B/ffffff?text=KIDS+LOGO';">
+    <h1 style="color:var(--primary); margin:10px 0;">الكنيسة الإنجيلية بملوي</h1>
+    <h3 style="color:var(--secondary); margin:0;">عبرة في خلوة</h3>
+</div>
+
+<div class="container">
+    <div id="start-screen">
+        <h2 style="color:var(--warning); font-size: 2rem;">🌟 حكاية ميلاد يسوع (متى 1) 🌟</h2>
+        
+        <div class="gallery-section">
+            <div class="images-grid">
+                <div class="gallery-item"><img src="bible_kids.JPG" alt="Bible Story" style="width:100%; max-width:300px; border-radius:20px; border:5px solid var(--secondary);"></div>
+            </div>
+        </div>
+        
+        <div class="explanation-slider">
+            <div id="slide-content"></div>
+            <div class="slider-nav">
+                <button class="nav-btn" onclick="moveSlide(-1)" id="prevSlide">السابق</button>
+                <span id="slide-num" style="align-self:center; font-weight:bold;">1 / 20</span>
+                <button class="nav-btn" onclick="moveSlide(1)" id="nextSlide">التالي</button>
+            </div>
+        </div>
+
+        <input type="text" id="username" placeholder="اكتب اسمك يا بطل هنا...">
+        <br><br>
+        <button class="btn-main" onclick="initQuiz()">يلا نبدأ المسابقة 🎯</button>
+    </div>
+
+    <div id="quiz-screen" class="hidden">
+        <div class="status-bar">
+            <div>⏰ <span id="timer-val">00:00</span></div>
+            <div id="progress-text">السؤال 1 / 20</div>
+            <div>⭐ <span id="score-val">0</span></div>
+        </div>
+        
+        <div class="question-zone">
+            <h3 id="q-text" style="font-size: 1.6rem; color: var(--primary);"></h3>
+            <div id="options-container" class="options-grid"></div>
+            
+            <div id="input-container" class="hidden">
+                <input type="text" id="user-code-input" placeholder="اكتب الإجابة يا شاطر...">
+            </div>
+
+            <div id="hint-box" style="margin-top:20px; display:none; background:#FFF9E1; padding:15px; border-radius:15px; border:2px solid var(--warning);">
+                💡 تلميحة مساعدة: <span id="hint-text"></span>
+            </div>
+
+            <div style="margin-top:30px; display:flex; gap:10px; justify-content:center;">
+                <button class="nav-btn" style="background:#95A5A6;" onclick="navigate(-1)">السابق</button>
+                <button class="btn-main" style="padding:15px 30px; font-size:1.2rem;" onclick="handleStep()">تأكيد الإجابة ✅</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-screen" class="hidden">
+        <h1 style="font-size: 5rem;">🥳</h1>
+        <h2 id="congrats-msg">مبروك يا بطل!</h2>
+        <p id="final-stats" style="font-size:1.5rem"></p>
+        <button class="btn-main" onclick="location.reload()">نلعب تاني؟ 🔄</button>
+    </div>
+</div>
+
+<script>
+    const lessons = [
+        { title: "عيلة يسوع 🌳", code: "كتاب ميلاد يسوع", desc: "الإنجيل بيبدأ يكلمنا عن شجرة عيلة بابا يسوع عشان نعرف هو جاي منين.", example: "زي ما بنعرف اسم جدو وبابا عشان نعرف عيلتنا." },
+        { title: "وعد لإبراهيم ✨", code: "ابن إبراهيم", desc: "يسوع حفيد إبراهيم، وده معناه إن يسوع هو البركة اللي ربنا وعد بيها إبراهيم زمان.", example: "ربنا بيوفى بوعوده مهما طال الوقت." },
+        { title: "ابن داود الملك 👑", code: "ابن داود", desc: "يسوع ملك حقيقي، بس ملك على قلوبنا مش ملك في قصر بجيش.", example: "يسوع ملك السلام والمحبة." },
+        { title: "التقسيمة الجميلة 🔢", code: "14 جيل", desc: "متى قسم الأسامي لمجموعات، كل مجموعة فيها 14 اسم عشان نحفظهم بسهولة.", example: "زي ما بنرتب لعبنا في مجموعات عشان مننساش حاجة." },
+        { title: "مريم العذراء 🕊️", code: "مريم المخطوبة ليوسف", desc: "مريم كانت بنت جميلة وبتحب ربنا جداً، وكانت مخطوبة لنجار شاطر اسمه يوسف.", example: "الخطوبة يعني بيجهزوا عشان يتجوزوا." },
+        { title: "سر عظيم 🤫", code: "وُجدت حبلى من الروح القدس", desc: "مريم بقت حامل بمعجزة من ربنا، مش بطريقة طبيعية زي كل الناس.", example: "ربنا مفيش حاجة صعبة عليه أبداً." },
+        { title: "يوسف النجار البار 🛠️", code: "كان باراً", desc: "يوسف كان إنسان طيب جداً وبيخاف على مشاعر الناس، مكنش عايز يزعل مريم.", example: "الشخص البار يعني اللي بيعمل الصح دايماً." },
+        { title: "حلم يوسف 😴", code: "ملاك الرب ظهر له", desc: "يوسف كان بيفكر يعمل إيه، فربنا بعتله ملاك في الحلم عشان يطمنه.", example: "ربنا دايماً بيطمنا لما بنكون محتارين." },
+        { title: "متخافش يا يوسف 🛡️", code: "لا تخف", desc: "الملاك قال ليوسف متخافش تاخد مريم عندك، لأن الطفل ده هو ابن ربنا.", example: "كلمة (لا تخف) بتشيل أي خوف من قلبنا." },
+        { title: "أحلى اسم (يسوع) ❤️", code: "تسميه يسوع", desc: "الملاك هو اللي اختار الاسم، ويسوع يعني (المخلص) اللي هينقذنا.", example: "يسوع هو اللي بيشيل عننا الوحش ويخلينا حلوين." },
+        { title: "بطل الخلاص 🦸‍♂️", code: "يخلص شعبه", desc: "يسوع جه مخصوص عشان يخلصنا من الغلط (الخطية) اللي بتبعدنا عن ربنا.", example: "زي البطل اللي بينقذ الناس من الخطر." },
+        { title: "عمانوئيل 🤝", code: "الله معنا", desc: "ده اسم تاني ليسوع معناه إن ربنا مش بعيد في السما، ده بقى معانا هنا.", example: "تخيل ربنا معاك في البيت والمدرسة وفي كل مكان!" },
+        { title: "كلام الأنبياء 📜", code: "لكي يتم ما قيل", desc: "كل اللي حصل ده كان الأنبياء قايلين عليه من مئات السنين.", example: "كلام ربنا حقيقي وبيرسم المستقبل بدقة." },
+        { title: "نبوة إشعياء 📖", code: "العذراء تلد ابناً", desc: "النبي إشعياء قال زمان إن فيه عذراء هتولد ملك عظيم.", example: "المعجزات هي طريقة ربنا عشان يبهرنا بحبه." },
+        { title: "طاعة يوسف 🏃‍♂️", code: "فعل كما أمره الملاك", desc: "يوسف أول ما صحي من النوم نفذ كلام ربنا فوراً من غير أسئلة.", example: "الشاطر هو اللي بيسمع كلام ربنا بسرعة." },
+        { title: "بيت يوسف 🏠", code: "أخذ امرأته", desc: "يوسف خد مريم في بيته وبقى هو المسؤول عنها وعن حماية الطفل يسوع.", example: "يوسف كان حارس أمين على أغلى هدية." },
+        { title: "ميلاد الملك الصغير 👶", code: "ولدت ابنها البكر", desc: "وأخيراً يوم الميلاد جه، ويسوع نور الدنيا بوجوده.", example: "أجمل يوم في التاريخ هو يوم ميلاد يسوع." },
+        { title: "يوسف بطل هادي 🤫", code: "ولم يعرفها حتى ولدت", desc: "يوسف فضل يحافظ على مريم ويحترمها جداً لحد ما يسوع اتولد.", example: "الاحترام والتقدير صفات الأبطال." },
+        { title: "تحقيق الوعد 🌍", code: "ابن إبراهيم وداود", desc: "بكده يسوع بقى هو الملك اللي جاي من عيلة الملوك والأنبياء.", example: "يسوع هو فخر لكل البشرية." },
+        { title: "جاهزين للمسابقة؟ 🏆", code: "هيا بنا!", desc: "خلصنا الحكاية، دلوقتي وقت التحدي عشان نشوف مين ركز في الكلام.", example: "يلا يا بطل وريني شطارتك!" }
+    ];
+
+    const questions = [
+        { type: 'select', q: 'إنجيل متى بيبدأ بعيلة مين؟', options: ['عيلة موسى', 'عيلة يسوع المسيح', 'عيلة يونان', 'عيلة نوح'], ans: 'عيلة يسوع المسيح', hint: 'أول جملة في الإصحاح' },
+        { type: 'select', q: 'يسوع هو حفيد مين من الملوك؟', options: ['الملك شاول', 'الملك سليمان', 'الملك داود', 'الملك أخآب'], ans: 'الملك داود', hint: 'الملك اللي كان بيعزف قيثارة' },
+        { type: 'select', q: 'مين هو أبو الآباء اللي بدأ بيه الأنساب؟', options: ['إبراهيم', 'يعقوب', 'إسحق', 'يوسف'], ans: 'إبراهيم', hint: 'اللي ربنا وعده بنسل زي نجوم السما' },
+        { type: 'select', q: 'متى قسم الأجيال لمجموعات، كل مجموعة فيها كام جيل؟', options: ['10 أجيال', '12 جيل', '14 جيل', '20 جيل'], ans: '14 جيل', hint: 'رقم بين الـ 10 والـ 15' },
+        { type: 'select', q: 'مريم كانت مخطوبة لمين؟', options: ['بطرس', 'يوسف النجار', 'يوحنا', 'زكريا'], ans: 'يوسف النجار', hint: 'كان بيشتغل بالخشب والمنشار' },
+        { type: 'select', q: 'مريم بقت حامل عن طريق مين؟', options: ['الصدفة', 'الروح القدس', 'ملاك', 'بشر'], ans: 'الروح القدس', hint: 'قوة ربنا العظيمة' },
+        { type: 'select', q: 'يوسف كان إنسان إيه؟ (وصفه الإنجيل بـ...)', options: ['غني', 'قوي', 'بار', 'سريع'], ans: 'بار', hint: 'يعني إنسان صالح وبيعمل الصح' },
+        { type: 'select', q: 'مين اللي ظهر ليوسف في الحلم؟', options: ['ملاك الرب', 'مريم العذراء', 'إبراهيم', 'الرعاة'], ans: 'ملاك الرب', hint: 'كائن سماوي بجناحات ونور' },
+        { type: 'select', q: 'الملاك قال ليوسف يسمي الطفل إيه؟', options: ['عمانوئيل', 'يسوع', 'يوحنا', 'مسيح'], ans: 'يسوع', hint: 'الاسم اللي بنحبه كلنا' },
+        { type: 'select', q: 'كلمة "يسوع" معناها إيه؟', options: ['القوي', 'المخلص', 'الصديق', 'الملك'], ans: 'المخلص', hint: 'لأنه بيخلصنا من الخطية' },
+        { type: 'select', q: 'اسم "عمانوئيل" معناه إيه؟', options: ['الله يحبنا', 'الله معنا', 'الله في السما', 'الله يرى'], ans: 'الله معنا', hint: 'ربنا قريب مننا جداً' },
+        { type: 'select', q: 'النبي اللي قال "العذراء تحبل وتلد" هو مين؟', options: ['إرميا', 'دانيال', 'إشعياء', 'يونان'], ans: 'إشعياء', hint: 'نبي كبير في العهد القديم' },
+        { type: 'select', q: 'يوسف عمل إيه لما صحي من النوم؟', options: ['نام تاني', 'سأل مريم', 'فعل كما أمره الملاك', 'خاف وهرب'], ans: 'فعل كما أمره الملاك', hint: 'نفذ كلام ربنا بسرعة' },
+        { type: 'select', q: 'ليه يسوع اتولد؟', options: ['عشان يلعب', 'عشان يخلص شعبه', 'عشان يبقى غني', 'عشان يبني بيوت'], ans: 'عشان يخلص شعبه', hint: 'عشان يفتح لنا باب السما' },
+        { type: 'select', q: 'مين "ابن إبراهيم" اللي جه في السلسلة؟', options: ['إسحق', 'إسماعيل', 'عيسو', 'لاوي'], ans: 'إسحق', hint: 'ابن الموعد' },
+        { type: 'select', q: 'المجموعة التانية من الأنساب بدأت بمين؟', options: ['سليمان', 'داود الملك', 'آسا', 'عزيا'], ans: 'داود الملك', hint: 'صاحب المزامير' },
+        { type: 'select', q: 'سلسلة الأنساب اتقسمت لكام مجموعة؟', options: ['مجموعتين', '3 مجموعات', '4 مجموعات', '5 مجموعات'], ans: '3 مجموعات', hint: '14 و 14 و 14' },
+        { type: 'select', q: 'الملاك قال ليوسف يا ابن مين؟', options: ['يا ابن يعقوب', 'يا ابن داود', 'يا ابن يوسف', 'يا ابن لاوي'], ans: 'يا ابن داود', hint: 'لقب عيلة الملوك' },
+        { type: 'select', q: 'يسوع جه عشان يكمل كلام مين؟', options: ['الملوك', 'الأنبياء', 'الفلاسفة', 'الشعراء'], ans: 'الأنبياء', hint: 'الناس اللي ربنا كان بيكلمهم زمان' },
+        { type: 'select', q: 'قصة الميلاد دي موجودة في إنجيل مين؟', options: ['مرقس', 'لوقا', 'يوحنا', 'متى'], ans: 'متى', hint: 'أول إنجيل في العهد الجديد' }
+    ];
+
+    let currentSlide = 0;
+    let currentQ = 0, score = 0, seconds = 0, timer;
+
+    function showSlide() {
+        const item = lessons[currentSlide];
+        document.getElementById('slide-content').innerHTML = `
+            <div class="explanation-card">
+                <h3>${item.title}</h3>
+                <div class="code-block">${item.code}</div>
+                <p class="example-text">${item.desc}</p>
+                <p style="color:var(--primary); font-weight:bold;">💡 مثال: ${item.example}</p>
+            </div>
+        `;
+        document.getElementById('slide-num').innerText = `${currentSlide + 1} / ${lessons.length}`;
+        document.getElementById('prevSlide').disabled = currentSlide === 0;
+        document.getElementById('nextSlide').disabled = currentSlide === lessons.length - 1;
+    }
+
+    function moveSlide(dir) {
+        currentSlide += dir;
+        showSlide();
+    }
+
+    window.onload = showSlide;
+
+    function initQuiz() {
+        if(!document.getElementById('username').value.trim()) return alert("اكتب اسمك يا بطل أولاً!");
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        loadQuestion();
+        timer = setInterval(() => {
+            seconds++;
+            let m = Math.floor(seconds/60), s = seconds%60;
+            document.getElementById('timer-val').innerText = `${m}:${s < 10 ? '0'+s : s}`;
+        }, 1000);
+    }
+
+    function loadQuestion() {
+        const q = questions[currentQ];
+        document.getElementById('progress-text').innerText = `السؤال ${currentQ + 1} / 20`;
+        document.getElementById('q-text').innerText = q.q;
+        document.getElementById('hint-box').style.display = 'none';
+        
+        document.getElementById('options-container').innerHTML = '';
+        q.options.forEach(opt => {
+            const b = document.createElement('button');
+            b.className = 'option-btn' + (q.userAns === opt ? ' selected' : '');
+            b.innerText = opt;
+            b.onclick = () => {
+                document.querySelectorAll('.option-btn').forEach(x => x.classList.remove('selected'));
+                b.classList.add('selected');
+                q.userAns = opt;
+            };
+            document.getElementById('options-container').appendChild(b);
+        });
+    }
+
+    function handleStep() {
+        const q = questions[currentQ];
+        const val = q.userAns;
+        if(!val) return alert("اختار إجابة يا بطل!");
+
+        if(val === q.ans) {
+            if(!q.done) { score += 10; q.done = true; document.getElementById('score-val').innerText = score; }
+            if(currentQ < 19) { currentQ++; loadQuestion(); } else { finishQuiz(); }
+        } else {
+            document.getElementById('hint-box').style.display = 'block';
+            document.getElementById('hint-text').innerText = q.hint;
+        }
+    }
+
+    function navigate(dir) {
+        if(currentQ + dir >= 0) {
+            currentQ += dir;
+            loadQuestion();
+        }
+    }
+
+    function finishQuiz() {
+        clearInterval(timer);
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        document.getElementById('congrats-msg').innerText = `أنت بطل خارق يا ${document.getElementById('username').value}! 🏆`;
+        document.getElementById('final-stats').innerText = `جمعت ${score} نقطة في ${Math.floor(seconds/60)} دقيقة و ${seconds%60} ثانية`;
+    }
+</script>
+</body>
+</html>
